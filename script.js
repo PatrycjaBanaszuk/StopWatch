@@ -7,7 +7,7 @@ const stopwatch = document.querySelector('.stopwatch')
 const time = document.querySelector('.time')
 const timelist = document.querySelector('.time-list')
 const infoBtn = document.querySelector('.info')
-const modalBtn = document.querySelector('.modal-shadow')
+const modalShadow = document.querySelector('.modal-shadow')
 const closeModalBtn = document.querySelector('.close')
 
 let countTime
@@ -49,7 +49,6 @@ const handlePause = () => {
 }
 
 const handleReset = () => {
-
 	time.style.visibility = 'hidden'
 	timesArr = []
 
@@ -63,9 +62,34 @@ const clearStuff = () => {
 	seconds = 0
 	minutes = 0
 }
+const showHistory = () => {
+	timelist.textContent = ''
+	let num = 1
+
+	timesArr.forEach(time => {
+		const newTime = document.createElement('li')
+		newTime.innerHTML = `Pomiar nr ${num}: <span>${time}</span>`
+		timelist.appendChild(newTime)
+		num++
+	})
+}
+
+const showModal = () => {
+	if(!(modalShadow.style.display === 'block')){
+		modalShadow.style.display = "block"
+	} else {
+		modalShadow.style.display = "none"
+	};
+
+	modalShadow.classList.toggle('modal-animation')
+	
+}
 
 startBtn.addEventListener('click', handleStart)
 pauseBtn.addEventListener('click', handlePause)
 stopBtn.addEventListener('click', handleStop)
 resetBtn.addEventListener('click', handleReset)
-
+historyBtn.addEventListener('click', showHistory)
+infoBtn.addEventListener('click', showModal)
+closeModalBtn.addEventListener('click', showModal);
+window.addEventListener('click', e => e.target === modalShadow ? showModal() : false)
